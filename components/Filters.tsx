@@ -1,21 +1,35 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Pressable } from 'react-native'
+import {useRecoilState} from "recoil"
+import {positionFilterState} from "../atom/Players"
+
+const positions = ['FWD', 'MID', 'DEF', 'GCK']
 
 const Filters = () => {
+    const [positionFilter, setPositionFilter] = useRecoilState(positionFilterState)
+
+    const onFilterPress = (position: string) => {
+        setPositionFilter((curPositionFilter)=> {
+            if(curPositionFilter.includes(position)) {
+                return curPositionFilter.filter((pos)=> pos !== position)
+            }else {
+                return [...curPositionFilter, position]
+            }
+        })
+    }
+    const isSelected = (position: string) => {
+        return positionFilter.includes(position)
+    }
     return (
         <View style={styles.container}>
-            <View style={styles.filterContainer}>
-                <Text style={styles.text}>FWD</Text>
-            </View>
-            <View style={styles.filterContainer}>
-                <Text style={styles.text}>MID</Text>
-            </View>
-            <View style={styles.filterContainer}>
-                <Text style={styles.text}>DEF</Text>
-            </View>
-            <View style={styles.filterContainer}>
-                <Text style={styles.text}>GKC</Text>
-            </View>
+            {positions.map((position)=>(
+                <Pressable 
+                    onPress={()=> onFilterPress(position)} 
+                    style={[styles.filterContainer, {backgroundColor: isSelected(position) ? "#999" : "#ddd"}]}
+                >
+                <Text style={styles.text}>{position}</Text>
+            </Pressable>
+            ))}
         </View>
     )
 }
@@ -32,7 +46,7 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 15,
-        backgroundColor: "#ddd",
+        
         justifyContent: "center",
         alignItems: "center",
         

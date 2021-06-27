@@ -1,11 +1,10 @@
-import React, { useRef } from "react";
+import React, { Suspense, useRef } from "react";
 import { StyleSheet, SafeAreaView, Pressable, Text, View } from "react-native";
 import { Field } from "../components/Field";
 import TeamStat from "../components/TeamStat";
-import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet';
-import PlayerListItem from "../components/PlayerListItem";
-import {players} from "../assets/data/players";
+import BottomSheet from '@gorhom/bottom-sheet';
 import Filters from "../components/Filters";
+import PlayersListing from "../components/PlayersListing";
 
 const snapPoints = [0, "50%"]
 
@@ -49,10 +48,9 @@ export default function TabOneScreen() {
         <Pressable onPress={openFilter} style={styles.btnContainer}>
           <Text>Filter</Text>
         </Pressable>
-        <BottomSheetFlatList 
-          data={players}
-          renderItem={({item})=> <PlayerListItem player={item} />}
-        />
+        <Suspense fallback={<Text>loading...</Text>}>
+        <PlayersListing />
+        </Suspense>
       </BottomSheet>
 
       <BottomSheet 

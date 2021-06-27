@@ -4,15 +4,19 @@ const field = require("../assets/images/field.jpg");
 import FieldedPlayer from "./FieldedPlayer";
 
 import { Entypo } from "@expo/vector-icons";
+import { useRecoilValue } from "recoil";
+import { myPlayerByPosition } from "../atom/MyTeam";
 
-const players: { [key: string]: null[] } = {
-  FWD: [null, null, null],
-  MID: [null, null, null],
-  DEF: [null, null, null, null],
-  GKC: [null],
-};
+// const players: { [key: string]: null[] } = {
+//   FWD: [null, null, null],
+//   MID: [null, null, null],
+//   DEF: [null, null, null, null],
+//  GCC: [null],
+// };
 
 export const Field = () => {
+  const players = useRecoilValue(myPlayerByPosition);
+  console.log(players);
   return (
     <ImageBackground
       source={field}
@@ -53,7 +57,7 @@ export const Field = () => {
           //   marginTop: "95%",
           //   position: "absolute"
         }}
-        >
+      >
         <Text
           style={{
             color: "white",
